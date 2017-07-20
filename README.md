@@ -78,7 +78,9 @@ Server:
 
 ## Testing your Windows Container
 
+`docker pull microsoft/dotnet-samples:dotnetapp-nanoserver`
 `docker run microsoft/dotnet-samples:dotnetapp-nanoserver`
+
 ```
         Dotnet-bot: Welcome to using .NET Core!
     __________________
