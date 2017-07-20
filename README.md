@@ -118,12 +118,10 @@ Server:
       ...............                 .'..............
        .........                        ..............
         .....
-```
-
 **Environment**
 Platform: .NET Core 1.0
 OS: Microsoft Windows 10.0.14393
-
+```
 - TIPS: If enabled BitLocker with "Deny write access to fixed drives not protected by BitLocker" and this error message
 `failed to register layer: re-exec error: exit status 1: output: ProcessBaseLayer C:\ProgramData\Docker The I/O operation has been aborted because of either a thread exit or an application request.`
 
@@ -137,3 +135,33 @@ OS: Microsoft Windows 10.0.14393
 - You need to run to PowerShell command
 
 `Set-ItemProperty -Path 'HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\Containers' -Name VSmbDisableOplocks -Type DWord -Value 1 -Force`
+## TroubleShooting Windows Contrainer Host
+You can simply run a PowerShell script from Microsoft on your Windows 10 for diagnoistic.
+
+`PS C:\windows\system32> Invoke-WebRequest https://aka.ms/Debug-ContainerHost.ps1 -UseBasicParsing | Invoke-Expression`
+```
+Checking for common problems
+Describing Windows Version and Prerequisites
+ [+] Is Windows 10 Anniversary Update or Windows Server 2016 617ms
+ [+] Has KB3192366, KB3194496, or later installed if running Windows build 14393 111ms
+ [+] Is not a build with blocking issues 22ms
+ [+] Has 'Containers' feature installed 11.29s
+Describing Docker is installed
+ [+] A Docker service is installed - 'Docker' or 'com.Docker.Service'  69ms
+ [+] Service is running 22ms
+ [+] Docker.exe is in path 2.78s
+ [+] Docker is registered in the EventLog service 103ms
+Describing User has permissions to use Docker daemon
+ [+] docker.exe should not return access denied 39ms
+Describing Windows container settings are correct
+ [+] Do not have DisableVSmbOplock set to 1 29ms
+ [+] Do not have zz values set 25ms
+ [+] Do not have FDVDenyWriteAccess set to 1 27ms
+Describing The right container base images are installed
+ [+] At least one of 'microsoft/windowsservercore' or 'microsoft/nanoserver' should be installed 107ms
+Describing Container network is created
+ [+] At least one local container network is available 3.33s
+ [+] At least one NAT, Transparent, or L2Bridge Network exists 29ms
+ [+] NAT Network's vSwitch is internal 67ms
+ [+] A Windows NAT is configured if a Docker NAT network exists 299ms
+```
